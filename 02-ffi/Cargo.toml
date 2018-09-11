@@ -1,0 +1,22 @@
+[package]
+name = "rust-wasm-example"
+version = "0.1.0"
+authors = ["Sebastian Ziebell <sebastian.ziebell@gmail.com>"]
+description = "An example"
+license = "MIT Licencse"
+repository = "https://github.com/justahero/rust-wasm-example"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+qrcode = { version = "0.8", default-features = false, features = ["svg"] }
+wasm-bindgen = "= 0.2.15"
+
+[dev-dependencies]
+wasm-bindgen-cli = "= 0.2.15"
+
+[profile.release]
+lto = true
+opt-level = 's'
+panic = 'abort'
