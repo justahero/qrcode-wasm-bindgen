@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>Hello</title>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type"/>
+    <script src='dist/rust_wasm_example.js'></script>
+    <script src='QrCodeRenderer.js'></script>
+  </head>
+  <body>
+    <div>
+      <span>
+        <label for="num_qrcodes"># QR Codes: </label>
+        <input text="text" id="num_qrcodes" name="name" placeholder="10" value="10" />
+      </span>
+      <span>
+        <button id="benchmark" onclick="benchmark()">Benchmark</button>
+      </span>
+    </div>
+    <div>
+      Counter: <span id="counter">0</span> - Time <span id="timer">0.00</span>
+    </div>
+    <div id="qrcodes">
+    </div>
+
+    <script>
+      const wasm_uri = `dist/rust_wasm_example_bg.wasm`;
+
+      const renderer = new QrCodeRenderer(wasm_uri);
+      const target_dom_element = document.getElementById("qrcodes");
+      const timer_dom_element = document.getElementById("timer");
+      const qrcodes_element = document.getElementById("num_qrcodes");
+      const counter_dom_element = document.getElementById("counter");
+
+      function generate_data(num_qrcodes) {
+        let data = [];
+        for (let i = 0; i < num_qrcodes; i ++) {
+          data.push("1234567890abcdefghijklmnopqrstuvwxyz" + i);
+        }
+        return data;
+      }
+
+      function benchmark() {
+        target_dom_element.textContent = '';
+        timer_dom_element.textContent = '0:00';
+        counter_dom_element.textContent = '0';
+
+        // prepare data set
+        let num_qrcodes = parseInt(qrcodes_element.value || "0");
+        let dataset = generate_data(num_qrcodes);
+        let counter = 0;
+
+        // run test
+        let svg_end_time;
+        let svg_start_time = Date.now();
+
+        Promise.all(dataset.map(v => renderer.render(v, 200, 200))).then(output => {
+          output.map(qrcode => {
+            target_dom_element.insertAdjacentHTML(`beforeend`, qrcode);
+              counter += 1;
+              counter_dom_element.innerHTML = counter;
+              total_svg_time = (Date.now() - svg_start_time) / 1000.0;
+              timer_dom_element.innerHTML = `${total_svg_time }`;
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
