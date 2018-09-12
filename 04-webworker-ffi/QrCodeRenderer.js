@@ -1,27 +1,19 @@
 class QrCodeRenderer {
     // Create a new renderer that loads the WASM from the path provided.
     constructor(worker_uri, wasm_uri) {
-        // load the WASM module into an array buffer, in this way we can
-        // transfer it to the service worker, need to compile it there due to Chrome :(
-        this.module = fetch(wasm_uri).then(response => response.arrayBuffer())
-
-        // Create a number of workers
-        this.worker = this.module.then(module => {
-            let worker = new Worker(worker_uri);
-            worker.postMessage(module);
-            worker.onmessage = this.handleMessage.bind(this);
-            return worker;
-        });
+        this.worker = new Worker(worker_uri);
+        this.worker.onmessage = this.handleMessage.bind(this);
+        this.worker.postMessage({"init": wasm_uri});
     }
 
-    // Sends the string to the web worker
-    render(data, index, width, height, callback) {
-        document.addEventListener(`qr_code_rendered(${data})`, (event) => {
-            callback(event.detail.result);
-        });
+    // Returns a promise which resolves to a SVG DOMString that can be dropped into the DOM.
+    render(data, width, height) {
+        return new Promise((resolve, reject) => {
+            document.addEventListener(`qr_code_rendered(${data})`, (event) => {
+                resolve(event.detail.result);
+            });
 
-        this.worker.then(worker => {
-            worker.postMessage({
+            this.worker.postMessage({
                 data: data,
                 width: width,
                 height: height,

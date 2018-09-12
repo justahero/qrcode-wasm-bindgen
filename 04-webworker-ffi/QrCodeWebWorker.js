@@ -3,16 +3,14 @@
 
 class QrCodeWebWorker {
     // Create a new renderer that loads the WASM from the path provided.
-    constructor(arrayBuffer) {
-        this.instance = this.initWebAssembly(arrayBuffer);
+    constructor(wasm_uri) {
+        this.instance = fetch(wasm_uri)
+          .then(response => response.arrayBuffer())
+          .then(arrayBuffer => WebAssembly.compile(arrayBuffer))
+          .then(module => WebAssembly.instantiate(module, {}));
+
         this.encoder = new TextEncoder(`UTF-8`);
         this.decoder = new TextDecoder(`UTF-8`);
-    }
-
-    async initWebAssembly(arrayBuffer) {
-        const module = await WebAssembly.compile(arrayBuffer);
-        const instance = await WebAssembly.instantiate(module, {});
-        return instance;
     }
 
     // Returns a SVG DOMString that can be dropped into the DOM.
@@ -65,15 +63,11 @@ let memoized_worker;
 // This is the main handler. It is called when the worker is sent a message via the
 // `the_worker.postMessage` function.
 onmessage = (event) => {
-    if (event.data instanceof ArrayBuffer) {
-        // When we get a wasm array buffer we know we need to instantiate.
-        memoized_worker = new QrCodeWebWorker(event.data);
-    } else {
+    if ("init" in event.data) {
+        memoized_worker = new QrCodeWebWorker(event.data["init"]);
+    } else if ("data" in event.data) {
         memoized_worker.render(event.data.data, event.data.width, event.data.height).then(output => {
-            postMessage({
-                source: event.data.data,
-                result: output,
-            });
+            postMessage({source: event.data.data, result: output });
         });
     }
 };

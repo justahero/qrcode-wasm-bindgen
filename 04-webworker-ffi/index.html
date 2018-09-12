@@ -54,13 +54,16 @@
 
         const elapsedTime = Date.now();
         for (let i = 0; i < dataset.length; i ++) {
-          renderer.render(dataset[i], i, 256, 256, qrcode => {
-            target_dom_element.insertAdjacentHTML(`beforeend`, qrcode);
-            counter += 1;
-            counter_dom_element.innerHTML = counter;
-            total_svg_time = (Date.now() - svg_start_time) / 1000.0;
-            timer_dom_element.innerHTML = `${total_svg_time }`;
-          });
+          let promise = renderer.render(dataset[i], 256, 256);
+          promise
+            .then(qrcode => {
+              target_dom_element.insertAdjacentHTML(`beforeend`, qrcode);
+              counter += 1;
+              counter_dom_element.innerHTML = counter;
+              total_svg_time = (Date.now() - svg_start_time) / 1000.0;
+              timer_dom_element.innerHTML = `${total_svg_time }`;
+            })
+            .catch(error => alert(error));
         }
       }
     </script>
