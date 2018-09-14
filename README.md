@@ -45,9 +45,9 @@ All examples provide a minimal HTML with an input field, to input the number of 
 
 **Note** a bigger number may result in runtime issues of your browser, e.g. may block or not respond anymore. It is recommended to pick a reasonable number (between 1 and 10.000).
 
-The following table compares the different versions. **Note** this benchmark is not meant show that one example is necessarily "better" than the other or that the **wasm-bindgen** crate should not be used. The purpose is to evaluate which version was appropriate for our specific use case and what we considered for production (06-ffi-webworker).
+The following table compares the different versions. **Note** this non-scientific benchmark is not meant to proof that one example is necessarily "better" than another or that the **wasm-bindgen** crate should not be used. The purpose is to evaluate which version was appropriate for our specific use case and what we considered for production (06-ffi-webworker).
 
-All tests were run on 13'' Macbook Pro (2016) with 16GB Ram, 4 CPUs, with Firefox 62.0. Each benchmark is the average of 5 repeated runs.
+All tests were run on 13'' Macbook Pro (2016) with 16GB Ram, 4 CPUs, in Firefox 62.0. Each benchmark is the average of 5 repeated runs.
 
 | iterations           |     1.000 |    10.000 |
 |--------------------- | --------- | --------- |
