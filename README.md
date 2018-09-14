@@ -1,6 +1,6 @@
-# QR code example
+# WebAssembly Example
 
-An example project with Rust, WebAssembly & Web workers using [wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/). 
+An example project with Rust, WebAssembly & Web workers using [wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/).
 
 The purpose of this repository is to provide different versions on how to run Rust code in WebAssembly in order to render a number of QR codes. These versions are structured as follows, if **wasm-bindgen** used, and how many web workers.
 
@@ -13,9 +13,9 @@ The purpose of this repository is to provide different versions on how to run Ru
 | 05-bindgen-webworker |          yes |             n |
 | 06-ffi-webworker     |           no |             n |
 
-where `n` web workers is dependent on the number of CPUs available.
+where `n` web workers is equal to the number of CPUs available.
 
-The first two examples do not use any web workers, therefore using a larger number of QR codes to generate will make the page unresponsive, so be considerate.
+The first two examples do not use any web workers, therefore using a larger number of QR codes to generate may render the web page unresponsive. The samples with `ffi` mean the memory manamgent is handled via Rust instead of using **wasm-bindgen**.
 
 
 ## Setup
@@ -49,7 +49,7 @@ The following table compares the different versions. **Note** this benchmark is 
 
 All tests were run on 13'' Macbook Pro (2016) with 16GB Ram, 4 CPUs, with Firefox 62.0. Each benchmark is the average of 5 repeated runs.
 
-| example              |     1.000 |    10.000 |
+| iterations           |     1.000 |    10.000 |
 |--------------------- | --------- | --------- |
 | 01-bindgen           |    1.785s |   18.900s |
 | 02-ffi               |    1.382s |   14.138s |
