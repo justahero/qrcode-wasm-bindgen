@@ -1,4 +1,4 @@
-Sample using FFI memory management with a single web worker.
+Sample using FFI memory management with web workers equal to the number of CPUs available.
 
 To build the project run:
 

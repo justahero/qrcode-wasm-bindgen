@@ -1,17 +1,9 @@
-QR code example with single web worker and wasm-bindgen
+Sample using [wasm-bindgen](https://rustwasm.github.io/wasm-bindgen/) with a single web worker.
 
-## Build
-
-Run
+To build the project run:
 
 ```bash
 $ ./build.sh
 ```
 
-to compile the example. Start a HTTP server
-
-```bash
-$ http-server -p 8080
-```
-
-and open the web browser at http://localhost:8080.
+Run a local web server and open the browser at http://localhost:8080.
