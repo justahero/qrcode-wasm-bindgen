@@ -34,26 +34,26 @@ First time install the package via NPM:
 $ npm install http-server -g
 ```
 
-Then run `http-server -p 8080` to start a local web server.
+Then run `http-server -p 8080` to start a local web server, open browser & go to http://localhost:8080.
 
 You can also use a different package / tool to start a web server, e.g. Python 3 [httpserver](https://pypi.org/project/httpserver/).
 
 
 ## Benchmarks
 
-All examples provide a minimal HTML with an input field, where the number to generate the QR codes can be given.
+All examples provide a minimal HTML with an input field, to input the number of QR codes to generate.
 
-**Note** a bigger number may result in runtine issues, e.g. the browser may block or not respond anymore. It is recommended to pick a number between 1 and 10.000.
+**Note** a bigger number may result in runtime issues of your browser, e.g. may block or not respond anymore. It is recommended to pick a reasonable number (between 1 and 10.000).
 
-The following table compares the different versions. **Note** the benchmark is not meant to be interpreted that one version is better than the other or not to use the **wasm-bindgen** crate. The purpose was to evaluate which version was appropriate for our specific use case and what we considered for production (06-ffi-webworker).
+The following table compares the different versions. **Note** this benchmark is not meant show that one example is necessarily "better" than the other or that the **wasm-bindgen** crate should not be used. The purpose is to evaluate which version was appropriate for our specific use case and what we considered for production (06-ffi-webworker).
 
-All tests were run on 13'' Macbook Pro (2016) with 16GB Ram with Firefox 62.0, each benchmark is the average of 10 repeated runs.
+All tests were run on 13'' Macbook Pro (2016) with 16GB Ram, 4 CPUs, with Firefox 62.0. Each benchmark is the average of 5 repeated runs.
 
 | example              |     1.000 |    10.000 |
 |--------------------- | --------- | --------- |
-| 01-bindgen           |           |           |
-| 02-ffi               |           |           |
-| 03-bindgen-webworker |           |           |
-| 04-ffi-webworker     |           |           |
-| 05-bindgen-webworker |           |           |
-| 06-ffi-webworker     |           |           |
+| 01-bindgen           |    1.785s |   18.900s |
+| 02-ffi               |    1.382s |   14.138s |
+| 03-bindgen-webworker |    2.146s |   21.767s |
+| 04-ffi-webworker     |    1.795s |   16.961s |
+| 05-bindgen-webworker |    1.204s |   17.005s |
+| 06-ffi-webworker     |    1.158s |   14.129s |
